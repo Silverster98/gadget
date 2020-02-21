@@ -1,0 +1,18 @@
+#head-div {
+  margin: 0px 8px;
+  padding: 10px;
+  border-bottom: 1px solid #F5F5F5;
+}
+
+.card-footer {
+  padding: 0;
+  border-right: 1px solid #DCDCDC;
+}
+
+.card-footer-btn {
+  color: #000000;
+}
+
+#color-canvas {
+  margin-top: 5px;
+}
