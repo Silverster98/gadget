@@ -1,0 +1,13 @@
+#head-div {
+  margin: 0px 8px;
+  padding: 10px;
+  border-bottom: 1px solid #F5F5F5;
+}
+
+.code-area-header {
+  padding: 0.5em 1em;
+}
+
+.code-area {
+  padding: 0 0;
+}

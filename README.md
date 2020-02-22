@@ -16,4 +16,14 @@ result:
 
 Follow this [link](https://silverster98.github.io/gadget/pixel_drawer/index.html), you can use it on your computer.
 
+## Timing Creator
+
+<!-- 正经代码写不了几行，这种乱七八糟的倒是挺乐意写 -->
+
+Use code to create a timing figure usually used in digital circuit design to indicate temporal relation. Just follow the mapping between character and it's meaning, then you can make it. 
+
+Example:
+<img src="./asset/p3.png" height="50%" width="50%" />
+
+Click the run button, the timing will be drawn according to the code. Click the download button, then the image in PNG format will be downloaded.
 

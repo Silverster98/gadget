@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timing Creator</title>
+  <script src="./dist/bundle.js"></script>
+</head>
+<body>
+  <div id="head-div"><a class="button is-primary" href="/">Back <<</a></div>
+  <section class="section">
+    <div id="main-div" class="columns is-5">
+      <div class="column is-three-fifths">
+        <div class="message">
+          <div class="code-area-header message-header">
+            <p>Code</p>
+            <a id="play"><i class="fa fa-play-circle"></i></a>
+          </div>
+          <div class="code-area message-body">
+            <div id="main-editor" style="height: 200px;">clk=_~_~_~_~_~
+wdata=xxx[data][data][][]xxx
+wen=___~~_____</div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-two-fifths">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="box">
+              <table class="table is-bordered is-narrow is-striped is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Character</th>
+                    <th>Meaning</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>_</td>
+                    <td>low edge</td>
+                    <td>clk=_</td>
+                  </tr>
+                  <tr>
+                    <td>~</td>
+                    <td>high edge</td>
+                    <td>clk=~</td>
+                  </tr>
+                  <tr>
+                    <td>x</td>
+                    <td>indefinite signal</td>
+                    <td>rdata=x</td>
+                  </tr>
+                  <tr>
+                    <td>[val]</td>
+                    <td>definite signal</td>
+                    <td>rdata=data</td>
+                  </tr>
+                  <tr>
+                    <th colspan="3">More Examples</th>
+                  </tr>
+                  <tr>
+                    <td colspan="3">clk=_~_~_~_~</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">rdata=xx[data][data]xxxx</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div><a id="download"class="button is-primary">Download</a></div>
+    <div id="canvas-div">
+      <canvas id="main-canvas"></canvas>
+    </div>
+  </section>
+</body>
+<style>
+</style>
+</html>
