@@ -15,29 +15,34 @@ export default class Drawer {
     this.ratio = ratio
 
     this.op = []
+    this.once = []
   }
 
   /**
-   * 绘制一系列像素块，后期增加移动鼠标绘制鼠标划过的方格
+   * 一次操作完成
    */
-  drawPixels(ctx, pixels) {
-    let ps = []
-    for (let i = 0; i < pixels.length; i++) {
-      // 将即将绘制的像素中与原图中相同的像素剔除
-      let flag = false
-      for (let k = 0; k < this.op.length; k++) {
-        for (let l = 0; l < this.op[k].length; l++) {
-          if (pixel.equalTwo(pixels[i], this.op[k][l])) flag = true
-        }
-      }
+  onceDone() {
+    if (this.once.length != 0) {
+      this.op.push(this.once)
+      this.once = []
+    }
+  }
 
-      if (!flag) {
-        this._drawPixel(ctx, pixels[i].x, pixels[i].y, pixels[i].color)
-
-        ps.push(pixels[i])
+  /**
+   * 绘制一次操作中的一个像素块
+   */
+  drawPixels2(ctx, p) {
+    let flag = true
+    for (let i = 0; i < this.once.length; i++) {
+      if (pixel.equalTwoPos(this.once[i], p)) {
+        flag = false
+        break
       }
     }
-    if (ps.length != 0) this.op.push(ps)
+    if (flag) {
+      this.once.push(p)
+      this._drawPixel(ctx, p.x, p.y, p.color)
+    }
   }
 
   /**
@@ -64,7 +69,8 @@ export default class Drawer {
    * 重画
    */
   redraw(ctx) {
-    this.op = []
+    this.init(this.size, this.ratio)
+
     this.drawBG(ctx)
   }
 

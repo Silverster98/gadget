@@ -35,15 +35,29 @@ window.onload = function() {
     drawer.resize(ctx, size)
   }
 
-  canvas.addEventListener('click', (e) => {
+  canvas.addEventListener('mousedown', (e) => {
     let rect = canvas.getBoundingClientRect()
-    let x = e.clientX - rect.left
-    let y = e.clientY - rect.top
-    let pixels = []
-    pixels.push(pixel.create(~~(x / RATIO), ~~(y / RATIO), colorCtx.fillStyle))
+    let x = ~~((e.clientX - rect.left) / RATIO)
+    let y = ~~((e.clientY - rect.top) / RATIO)
+    if (x < 0 || y < 0 || x >= drawer.size || y >= drawer.size) return
+    let t = pixel.create(x, y, colorCtx.fillStyle)
+    drawer.drawPixels2(ctx, t)
+    
+    if (!canvas.onmousemove) {
+      canvas.onmousemove = function(e) {
+        let rect = canvas.getBoundingClientRect()
+        let x = ~~((e.clientX - rect.left) / RATIO)
+        let y = ~~((e.clientY - rect.top) / RATIO)
+        if (x < 0 || y < 0 || x >= drawer.size || y >= drawer.size) return
+        let t = pixel.create(x, y, colorCtx.fillStyle)
+        drawer.drawPixels2(ctx, t)
+      }
+    }
+  })
 
-    drawer.drawPixels(ctx, pixels)
-    console.log(drawer.op)
+  canvas.addEventListener('mouseup', (e) => {
+    canvas.onmousemove = null
+    drawer.onceDone()
   })
 
   colorInput.oninput = function(e) {
