@@ -1,6 +1,6 @@
 
 const HALF = 12
-const PART = [6, 30, 6]
+const PART = [6, 24, 6]
 let SUM = [0]
 for (let i = 0; i < PART.length; i++) {
   SUM.push(SUM[i] + PART[i])
@@ -63,50 +63,50 @@ export default class Drawer {
    * draw a signal in a row
    * @param {*} ctx context
    * @param {*} pos position of a signal
-   * @param {*} single signal = {name: 'xx', val: 'xx'}
+   * @param {*} signal signal = {name: 'xx', val: 'xx'}
    */
-  drawSignal(ctx, pos, single) {
+  drawSignal(ctx, pos, signal) {
     ctx.font = FONT_SIZE + 'px sans-serif'
-    ctx.fillText(single.name, HALF, pos.y + FONT_SIZE / 3)
+    ctx.fillText(signal.name, HALF, pos.y + FONT_SIZE / 3)
 
-    for (let i = 0; i < single.val.length; i++) {
+    for (let i = 0; i < signal.val.length; i++) {
       let style = ''
       
-      switch (single.val[i]) {
+      switch (signal.val[i]) {
         case '_':
-          if (i == 0 || single.val[i - 1] == '_') style = '_'
-          else if (single.val[i - 1] == 'x') style = 'x'
+          if (i == 0 || signal.val[i - 1] == '_') style = '_'
+          else if (signal.val[i - 1] == 'x') style = 'x'
           else style = '\\'
           style += '_'
-          if (i == single.val.length - 1 || single.val[i + 1] == '_') style += '_'
-          else if (single.val[i + 1] == 'x') style += 'n'
+          if (i == signal.val.length - 1 || signal.val[i + 1] == '_') style += '_'
+          else if (signal.val[i + 1] == 'x') style += 'n'
           else style += '/'
           break
         case '~':
-          if (i == 0 || single.val[i - 1] == '~') style = '~'
-          else if (single.val[i - 1] == 'x') style = 'w'
+          if (i == 0 || signal.val[i - 1] == '~') style = '~'
+          else if (signal.val[i - 1] == 'x') style = 'w'
           else style = '/'
           style += '~'
-          if (i == single.val.length - 1 || single.val[i + 1] == '~') style += '~'
-          else if (single.val[i + 1] == 'x') style += 'o'
+          if (i == signal.val.length - 1 || signal.val[i + 1] == '~') style += '~'
+          else if (signal.val[i + 1] == 'x') style += 'o'
           else style += '\\'
           break
         case 'x':
-          if (i == 0 || single.val[i - 1] == 'x') style = '='
-          else if (single.val[i - 1] == '~') style = 'p'
-          else if (single.val[i - 1] == '_') style = 'm'
+          if (i == 0 || signal.val[i - 1] == 'x') style = '='
+          else if (signal.val[i - 1] == '~') style = 'p'
+          else if (signal.val[i - 1] == '_') style = 'm'
           else style = '<'
           style += '='
-          if (i == single.val.length - 1 || single.val[i + 1] == 'x') style += '='
-          else if (single.val[i + 1] == '~') style += 'q'
-          else if (single.val[i + 1] == '_') style += 'z'
+          if (i == signal.val.length - 1 || signal.val[i + 1] == 'x') style += '='
+          else if (signal.val[i + 1] == '~') style += 'q'
+          else if (signal.val[i + 1] == '_') style += 'z'
           else style += '>'
           break
         default:
-          if (i == 0 || single.val[i - 1] == single.val[i]) style = '='
+          if (i == 0 || signal.val[i - 1] == signal.val[i]) style = '='
           else style = '<'
           style += '='
-          if (i == single.val.length - 1 || single.val[i + 1] == single.val[i]) style += '='
+          if (i == signal.val.length - 1 || signal.val[i + 1] == signal.val[i]) style += '='
           else style += '>'
       }
 
@@ -115,7 +115,7 @@ export default class Drawer {
   }
 
   /**
-   * draw single in a cycle, ss.length must be 3
+   * draw signal in a cycle, ss.length must be 3
    * @param {*} ctx context
    * @param {*} pos position of a cycle start point
    * @param {*} ss style string consist of character _~<>/\=
@@ -127,7 +127,7 @@ export default class Drawer {
   }
 
   /**
-   * draw a part of single in a cycle
+   * draw a part of signal in a cycle
    * @param {*} ctx context 
    * @param {*} pos position of a cycle start point
    * @param {*} style the style of this part, maybe _~<>/\=
