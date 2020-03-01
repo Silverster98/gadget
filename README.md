@@ -27,3 +27,4 @@ Example:
 
 Click the run button, the timing will be drawn according to the code. Click the download button, then the image in PNG format will be downloaded.
 
+Follow this [link](https://silverster98.github.io/gadget/timing_creator/index.html), you can use it on your computer.
