@@ -20,8 +20,10 @@ export default class Drawer {
    * @param {*} ctx 
    */
   test(ctx) {
-    let signals = [{name: 'clk', val: ['_', '~', '_', '~']}, {name: 'rdata', val: ['x', 'x', '', '']}]
-    this.drawSignals(ctx, signals)
+    // let signals = [{name: 'clk', val: ['_', '~', '_', '~']}, {name: 'rdata', val: ['x', 'x', '', '']}]
+    // this.drawSignals(ctx, signals)
+    this.drawCycle(ctx, {x:25,y:25}, '__n')
+    this.drawCycle(ctx, {x:25 + HALF_CYCLE,y:25}, 'm==')
   }
 
   /**
@@ -73,23 +75,31 @@ export default class Drawer {
       switch (single.val[i]) {
         case '_':
           if (i == 0 || single.val[i - 1] == '_') style = '_'
+          else if (single.val[i - 1] == 'x') style = 'x'
           else style = '\\'
           style += '_'
           if (i == single.val.length - 1 || single.val[i + 1] == '_') style += '_'
+          else if (single.val[i + 1] == 'x') style += 'n'
           else style += '/'
           break
         case '~':
           if (i == 0 || single.val[i - 1] == '~') style = '~'
+          else if (single.val[i - 1] == 'x') style = 'w'
           else style = '/'
           style += '~'
           if (i == single.val.length - 1 || single.val[i + 1] == '~') style += '~'
+          else if (single.val[i + 1] == 'x') style += 'o'
           else style += '\\'
           break
         case 'x':
           if (i == 0 || single.val[i - 1] == 'x') style = '='
+          else if (single.val[i - 1] == '~') style = 'p'
+          else if (single.val[i - 1] == '_') style = 'm'
           else style = '<'
           style += '='
           if (i == single.val.length - 1 || single.val[i + 1] == 'x') style += '='
+          else if (single.val[i + 1] == '~') style += 'q'
+          else if (single.val[i + 1] == '_') style += 'z'
           else style += '>'
           break
         default:
@@ -150,6 +160,38 @@ export default class Drawer {
       case '=':
         this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y + HALF)
         this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y - HALF)
+        break
+      case 'q':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y - HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y)
+        break
+      case 'w':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y - HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y, pos.x + SUM[part], pos.y - HALF)
+        break
+      case 'o':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y - HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y)
+        break
+      case 'p':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y - HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y, pos.x + SUM[part], pos.y + HALF)
+        break
+      case 'z':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y + HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y - HALF, pos.x + SUM[part], pos.y)
+        break
+      case 'x':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y + HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y, pos.x + SUM[part], pos.y + HALF)
+        break
+      case 'n':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y + HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y)
+        break
+      case 'm':
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y + HALF, pos.x + SUM[part], pos.y + HALF)
+        this._drawLine(ctx, pos.x + SUM[part - 1], pos.y, pos.x + SUM[part], pos.y - HALF)
         break
       default: break
     }
