@@ -22,8 +22,8 @@ export default class Drawer {
   test(ctx) {
     // let signals = [{name: 'clk', val: ['_', '~', '_', '~']}, {name: 'rdata', val: ['x', 'x', '', '']}]
     // this.drawSignals(ctx, signals)
-    this.drawCycle(ctx, {x:25,y:25}, '__n')
-    this.drawCycle(ctx, {x:25 + HALF_CYCLE,y:25}, 'm==')
+    this.drawHalfCycle(ctx, {x:25,y:25}, '__n')
+    this.drawHalfCycle(ctx, {x:25 + HALF_CYCLE,y:25}, 'm==')
   }
 
   /**
@@ -56,6 +56,73 @@ export default class Drawer {
 
     for (let i = 0; i < signals.length; i++) {
       this.drawSignal(ctx, {x: sx, y: sy + i * 3 * HALF}, signals[i])
+      this.drawShadow(ctx, {x: sx, y: sy + i * 3 * HALF}, signals[i])
+      this.drawInfor(ctx, {x: sx, y: sy + i * 3 * HALF}, signals[i])
+    }
+  }
+
+  /**
+   * draw information for [xxx] signal
+   * @param {*} ctx context
+   * @param {*} pos position of a signal
+   * @param {*} signal signal = {name: 'xx', val: 'xx'} 
+   */
+  drawInfor(ctx, pos, signal) {
+    let start = 0
+    let infor = ''
+    for (let i = 0; i < signal.val.length; i++) {
+      if (signal.val[i] != '' && signal.val[i] != 'x' && signal.val[i] != '_' && signal.val[i] != '~') {
+        if (infor == '') {
+          infor = signal.val[i]
+          start = i
+        } else {
+          if (infor != signal.val[i]) {
+            this._drawInfor(ctx, pos, start, i, infor)
+            infor = signal.val[i]
+            start = i
+          }
+        } 
+      } else {
+        if (infor != '') {
+          this._drawInfor(ctx, pos, start, i, infor)
+          infor = ''
+        }
+      }
+    }
+  }
+
+  /**
+   * draw infor text
+   * @param {*} ctx context
+   * @param {*} pos position of a signal
+   * @param {*} start start cycle
+   * @param {*} end  end cycle
+   * @param {*} infor infor text
+   */
+  _drawInfor(ctx, pos, start, end, infor) {
+    ctx.font = FONT_SIZE + 'px sans-serif'
+    let x = pos.x + start * HALF_CYCLE + (end - start) * HALF_CYCLE / 2 - infor.length * FONT_SIZE / 4
+    let y = pos.y + FONT_SIZE / 3
+    ctx.fillText(infor, x, y)
+  }
+
+  /**
+   * draw shadow for x signal
+   * @param {*} ctx context
+   * @param {*} pos position of a signal
+   * @param {*} signal signal = {name: 'xx', val: 'xx'}
+   */
+  drawShadow(ctx, pos, signal) {
+    for (let i = 0; i < signal.val.length; i++) {
+      let x = pos.x + HALF_CYCLE * i
+      let y = pos.y
+
+      if (signal.val[i] == 'x') {
+        this._drawLine(ctx, x, y, x + PART[0], y - HALF)
+        this._drawLine(ctx, x + PART[0], y + HALF, x + PART[0] + PART[1] / 2, y - HALF)
+        this._drawLine(ctx, x + PART[0] + PART[1] / 2, y + HALF, x + PART[0] + PART[1], y - HALF)
+        this._drawLine(ctx, x + PART[0] + PART[1], y + HALF, x + PART[0] + PART[1] + PART[2], y)
+      }
     }
   }
 
@@ -110,7 +177,7 @@ export default class Drawer {
           else style += '>'
       }
 
-      this.drawCycle(ctx, {x: pos.x + HALF_CYCLE * i, y: pos.y}, style)
+      this.drawHalfCycle(ctx, {x: pos.x + HALF_CYCLE * i, y: pos.y}, style)
     }
   }
 
@@ -120,7 +187,7 @@ export default class Drawer {
    * @param {*} pos position of a cycle start point
    * @param {*} ss style string consist of character _~<>/\=
    */
-  drawCycle(ctx, pos, ss) {
+  drawHalfCycle(ctx, pos, ss) {
     for (let i = 0; i < ss.length; i++) {
       this.drawPart(ctx, pos, ss[i], i + 1)
     }
